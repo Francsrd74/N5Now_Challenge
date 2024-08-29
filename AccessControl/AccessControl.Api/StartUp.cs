@@ -3,13 +3,13 @@
 namespace AccessControl.Api
 {
     public class StartUp
-    {
-        public StartUp(IConfiguration configuration)
+    { 
+        public StartUp(IConfiguration configuration )
         {
-            Configuration = configuration;
+            Configuration = configuration; 
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; } 
 
 
         public void ConfigureServices(IServiceCollection services)
@@ -23,7 +23,7 @@ namespace AccessControl.Api
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            //add Infra
+            // Add Infra
             services.AddInfrastructure(Configuration); 
         }
 
@@ -41,7 +41,7 @@ namespace AccessControl.Api
 
                 app.UseAuthorization();
              
-            
+              
         }
     }
 }

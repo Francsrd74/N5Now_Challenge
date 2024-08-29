@@ -10,3 +10,4 @@ debug/
 Debug/
 obj/
 Obj/
+*.log
