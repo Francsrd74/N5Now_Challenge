@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="ab25d816-ceaa-46c0-b0b5-0a93262876e8" ChangeDateTime="08/29/2024 01:16:34">
+    <Property Name="ElementName" Value="[dbo].[Permissions].[PermisionType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Permissions]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PermissionType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="85665e98-1be9-493a-9a97-84a1102cdc80" ChangeDateTime="08/29/2024 01:21:39">
+    <Property Name="ElementName" Value="[dbo].[PermissionsPermissionType].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PermissionsPermissionType]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PermissionId" />
+  </Operation>
+</Operations>
