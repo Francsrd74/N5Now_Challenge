@@ -1,3 +1,12 @@
 ﻿### Ignoro configuracion del VS
 
-/.vs
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.jfm
+debug/
+Debug/
+obj/
+Obj/
