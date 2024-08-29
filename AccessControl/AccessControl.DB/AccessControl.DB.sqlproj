@@ -61,7 +61,6 @@
   <ItemGroup>
     <Build Include="Tables\Permissions.sql" />
     <Build Include="Tables\PermissionTypes.sql" />
-    <Build Include="Tables\PermissionsPermissionType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AccessControl.DB.refactorlog" />
