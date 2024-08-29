@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControl.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControl.Infrastructure.UnitTest", "AccessControl.Infrastructure.UnitTest\AccessControl.Infrastructure.UnitTest.csproj", "{AA20C550-7167-4002-A198-DDA021CD8C31}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AccessControl.DB", "AccessControl.DB\AccessControl.DB.sqlproj", "{D281B289-F7E9-4179-B910-1FBFBF4266D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,12 @@ Global
 		{AA20C550-7167-4002-A198-DDA021CD8C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA20C550-7167-4002-A198-DDA021CD8C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA20C550-7167-4002-A198-DDA021CD8C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D281B289-F7E9-4179-B910-1FBFBF4266D2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
