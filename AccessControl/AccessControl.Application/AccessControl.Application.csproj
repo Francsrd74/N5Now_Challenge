@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Permission\**" />
+    <EmbeddedResource Remove="Permission\**" />
+    <None Remove="Permission\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.33" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
