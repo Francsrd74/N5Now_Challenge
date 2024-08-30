@@ -1,4 +1,7 @@
-﻿using AccessControl.Infrastructure;
+﻿using AccessControl.Application;
+using AccessControl.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 namespace AccessControl.Api
 {
@@ -14,10 +17,13 @@ namespace AccessControl.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+             
             // Add services to the container.
-
             services.AddControllers();
             services.AddHttpContextAccessor();
+
+            // add application 
+            services.AddApplication();
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -57,6 +63,7 @@ namespace AccessControl.Api
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            
 
         }
     }
