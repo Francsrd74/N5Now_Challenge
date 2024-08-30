@@ -17,6 +17,7 @@ namespace AccessControl.Api
             // Add services to the container.
 
             services.AddControllers();
+            services.AddHttpContextAccessor();
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,7 +42,22 @@ namespace AccessControl.Api
 
                 app.UseAuthorization();
              
-              
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseCors("AllowSpecificOrigins");
+             
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
+            });
+
+
         }
     }
 }

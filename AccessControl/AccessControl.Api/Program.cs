@@ -21,7 +21,11 @@ internal class Program
         catch (Exception ex)
         {
             Log.Fatal(ex, "Fatal error to initialing web host");
-        } 
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
