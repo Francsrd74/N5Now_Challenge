@@ -1,28 +1,50 @@
-﻿using MediatR;
+﻿using AccessControl.Application.Permissions.Commands.RequestPermission;
+using AccessControl.Application.Permissions.Commands.UpdatePermission;
+using AccessControl.Application.Permissions.Queries.GetPermission;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace AccessControl.Api.Controllers
 {
-    [ApiController]    
+    [ApiController]
     [Route("api/[controller]")]
     public class PermissionController : ControllerBase
     {
         private readonly ILogger<PermissionController> _logger;
 
-        private ISender _mediator;  
-        public PermissionController(ILogger<PermissionController> logger, IServiceProvider services)
+        private readonly ISender _mediator;
+        public PermissionController(ILogger<PermissionController> logger, ISender mediator)
         {
             _logger = logger;
-            _mediator = services.GetService<ISender>(); 
+            _mediator = mediator;
         }
+         
 
-        [HttpGet("{id?}")]
-        public async Task<ActionResult> GetPermission(int? id)
+        [HttpPost("[action]")]
+        public async Task<int> RequestPermission([FromBody] RequestPermissioRequest request)
         {
-            _logger.LogInformation("get permision: {id}", id);  
+            _logger.LogInformation("Request Permissio: {request}", request);
 
-            return NotFound();
+            return await _mediator.Send(request);
         }
+
+        [HttpPost("[action]")]
+        public async Task<int> UpdatePermission([FromBody] UpdatePermissionRequest request)
+        {
+            _logger.LogInformation("Update Permissio: {request}", request);
+
+            return await _mediator.Send(request);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<int> GetPermission([FromQuery] GetPermissionRequest query)
+        {
+            _logger.LogInformation("get permision: {id}", query.Id);
+
+            return await _mediator.Send(query);
+        }
+
     }
 }
 
