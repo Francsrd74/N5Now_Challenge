@@ -23,15 +23,14 @@ namespace AccessControl.Api
             services.AddHttpContextAccessor();
 
             // add application 
-            services.AddApplication();
-
+            services.AddApplication(); 
+            // Add Infra
+            services.AddInfrastructure(Configuration);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            // Add Infra
-            services.AddInfrastructure(Configuration); 
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
