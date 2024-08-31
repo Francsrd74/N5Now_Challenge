@@ -1,4 +1,5 @@
-﻿using AccessControl.Infrastructure.Persistence;
+﻿using AccessControl.Application.Common.Interfaces;
+using AccessControl.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,9 @@ namespace AccessControl.Infrastructure
               options.UseSqlServer(
                   configuration.GetConnectionString("EFCoreDataBase"),
                   b => b.MigrationsAssembly(typeof(AccessControlContext).Assembly.FullName)));
+
+            services.AddScoped<IAccessControlContext>(provider => provider.GetService<AccessControlContext>());
+
 
             return services;
 
