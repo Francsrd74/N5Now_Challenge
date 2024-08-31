@@ -57,6 +57,8 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Script" />
+    <Folder Include="Script\PreDeployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Permissions.sql" />
@@ -64,5 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AccessControl.DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Script\PreDeployment\dbo.PermissionTypes.sql" />
   </ItemGroup>
 </Project>

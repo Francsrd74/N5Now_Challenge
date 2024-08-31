@@ -21,4 +21,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PermissionTypeId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="bd2b5fd3-ae2c-40fe-8a31-2f639a6e955a" ChangeDateTime="08/31/2024 00:48:41">
+    <Property Name="ElementName" Value="[dbo].[PermissionTypes].[DescriptionTest]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PermissionTypes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Description" />
+  </Operation>
 </Operations>
