@@ -14,7 +14,7 @@ namespace AccessControl.Infrastructure.Persistence.EFConfigurations
     {
         public void Configure(EntityTypeBuilder<PermissionType> builder)
         { 
-            builder.Property(e => e.DescriptionTest).HasColumnType("text"); 
+            builder.Property(e => e.Description).HasColumnType("text"); 
         }
     }
 }

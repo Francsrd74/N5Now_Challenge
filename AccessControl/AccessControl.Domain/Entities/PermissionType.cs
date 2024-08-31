@@ -11,7 +11,7 @@ namespace AccessControl.Domain.Entities
         }
 
         public int Id { get; set; }
-        public string DescriptionTest { get; set; } = null!;
+        public string Description { get; set; } = null!;
 
         public virtual ICollection<Permission> Permissions { get; set; }
     }
