@@ -31,7 +31,7 @@ namespace AccessControl.Infrastructure.UnitOfWork
 
         public IPermissionRepository Permissions => new PermissionRepository(_accessControlContext); 
         public IPermissionRepository PermissionElastic => new PermissionElasticRepository(_elasticsearchClient, _logger); 
-        public IPermissionRepository PermissionKafka => new PermisionKafkaRepository(_logger, _kafkaProducer);
+        public IPermissionRepository PermissionKafka => new PermissionKafkaRepository(_logger, _kafkaProducer);
          
 
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken)

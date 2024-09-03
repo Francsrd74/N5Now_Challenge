@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace AccessControl.Infrastructure.Repositories
 {
-    internal class PermisionKafkaRepository : IPermissionRepository
+    internal class PermissionKafkaRepository : IPermissionRepository
     {
         private readonly ILogger<IPermissionRepository> _logger;
         private readonly IProducer<Null, string> _producerBuilder;
         private const string _topic = "permission-topic";
 
-        public PermisionKafkaRepository(ILogger<IPermissionRepository> logger, IProducer<Null, string> producerBuilder)
+        public PermissionKafkaRepository(ILogger<IPermissionRepository> logger, IProducer<Null, string> producerBuilder)
         {
             _logger = logger;
             _producerBuilder = producerBuilder;
