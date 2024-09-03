@@ -1,22 +1,42 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AccessControl.Application.Permissions.Queries.GetPermission.DTOs;
+using AccessControl.Domain.Interfaces.Permission;
+using MediatR;
 
 namespace AccessControl.Application.Permissions.Queries.GetPermission
 {
-    public class GetPermissionRequest : IRequest<int>
+    public class GetPermissionRequest : IRequest<PermissionResponseDto>
     {
         public int Id { get;set; } 
     }
 
-    public class GetPermissionRequestHandler : IRequestHandler<GetPermissionRequest, int>
+    public class GetPermissionRequestHandler : IRequestHandler<GetPermissionRequest, PermissionResponseDto>
     {
-        public Task<int> Handle(GetPermissionRequest request, CancellationToken cancellationToken)
+        private readonly IPermissionUOW _permissionUOW;
+        public GetPermissionRequestHandler(IPermissionUOW permissionUOW)
         {
-            return Task.FromResult(1);
+            _permissionUOW = permissionUOW;
+        }
+
+        public Task<PermissionResponseDto> Handle(GetPermissionRequest request, CancellationToken cancellationToken)
+        {
+            var result = _permissionUOW.PermissionElastic.Get(request.Id);
+
+            if (result != null) {
+
+                var employee = new PermissionResponseDto()
+                {
+                    Id = result.Id,
+                    EmployeeForename = result.EmployeeForename,
+                    EmployeeSurname = result.EmployeeSurname,
+                    PermissionTypeId = result.PermissionTypeId,
+                    PermissionDate = result.PermissionDate,
+                };
+                
+                return Task.FromResult(employee);
+            }
+
+
+            return null;
         }
     }
 }

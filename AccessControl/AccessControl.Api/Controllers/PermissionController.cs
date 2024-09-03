@@ -1,6 +1,7 @@
 ﻿using AccessControl.Application.Permissions.Commands.RequestPermission;
 using AccessControl.Application.Permissions.Commands.UpdatePermission;
 using AccessControl.Application.Permissions.Queries.GetPermission;
+using AccessControl.Application.Permissions.Queries.GetPermission.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -38,7 +39,7 @@ namespace AccessControl.Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<int> GetPermission([FromQuery] GetPermissionRequest query)
+        public async Task<PermissionResponseDto> GetPermission([FromQuery] GetPermissionRequest query)
         {
             _logger.LogInformation("get permision: {id}", query.Id);
 

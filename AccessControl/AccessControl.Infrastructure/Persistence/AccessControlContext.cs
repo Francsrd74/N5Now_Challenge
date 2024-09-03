@@ -28,6 +28,12 @@ namespace AccessControl.Infrastructure.Persistence
 
             base.OnModelCreating(builder);
         }
-         
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+
     }
 }
