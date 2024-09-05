@@ -21,8 +21,7 @@ namespace AccessControl.Infrastructure.Services
             _logger = logger;
             _mediator = mediator;
         }
-
-
+         
         public async Task Publish(DomainEvent domainEvent)
         {
             _logger.LogInformation("Publishing domain event. Event - {event}", domainEvent.GetType().Name);
