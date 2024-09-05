@@ -41,7 +41,7 @@ namespace AccessControl.Api.Controllers
         [HttpGet("[action]")]
         public async Task<PermissionResponseDto> GetPermission([FromQuery] GetPermissionRequest query)
         {
-            _logger.LogInformation("get permision: {id}", query.Id);
+            _logger.LogInformation("Get permisionn: {id}", query.Id);
 
             return await _mediator.Send(query);
         }
