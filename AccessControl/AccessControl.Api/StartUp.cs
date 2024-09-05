@@ -18,13 +18,13 @@ namespace AccessControl.Api
         public void ConfigureServices(IServiceCollection services)
         {
              
-            // Add services to the container.
+            // AddAsync services to the container.
             services.AddControllers();
             services.AddHttpContextAccessor();
 
             // add application 
             services.AddApplication(); 
-            // Add Infra
+            // AddAsync Infra
             services.AddInfrastructure(Configuration);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

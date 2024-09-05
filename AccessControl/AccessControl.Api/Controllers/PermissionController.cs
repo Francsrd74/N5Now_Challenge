@@ -25,7 +25,7 @@ namespace AccessControl.Api.Controllers
         [HttpPost("[action]")]
         public async Task<int> RequestPermission([FromBody] RequestPermissioRequest request)
         {
-            _logger.LogInformation("Request Permissio: {request}", request);
+            _logger.LogInformation("Request Permission: {request}", request);
 
             return await _mediator.Send(request);
         }
@@ -33,7 +33,7 @@ namespace AccessControl.Api.Controllers
         [HttpPost("[action]")]
         public async Task<int> UpdatePermission([FromBody] UpdatePermissionRequest request)
         {
-            _logger.LogInformation("Update Permissio: {request}", request);
+            _logger.LogInformation("UpdateAsync Permission: {request}", request);
 
             return await _mediator.Send(request);
         }
@@ -41,7 +41,7 @@ namespace AccessControl.Api.Controllers
         [HttpGet("[action]")]
         public async Task<PermissionResponseDto> GetPermission([FromQuery] GetPermissionRequest query)
         {
-            _logger.LogInformation("Get permisionn: {id}", query.Id);
+            _logger.LogInformation("Get permision: {id}", query.Id);
 
             return await _mediator.Send(query);
         }
