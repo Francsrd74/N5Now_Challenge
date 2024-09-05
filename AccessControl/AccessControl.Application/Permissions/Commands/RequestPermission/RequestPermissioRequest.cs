@@ -1,9 +1,13 @@
 ﻿using AccessControl.Domain.Entities;
+using AccessControl.Domain.Events.Permission;
 using AccessControl.Domain.Interfaces.Permission;
+using Confluent.Kafka;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,13 +22,16 @@ namespace AccessControl.Application.Permissions.Commands.RequestPermission
 
     public class RequestPermissioRequestHandler : IRequestHandler<RequestPermissioRequest, int>
     {
-        private readonly IPermissionUOW permissionUOW;
-        public RequestPermissioRequestHandler(IPermissionUOW permissionUOW)
+        private readonly IPermissionEntityFrameworkRepository _permissionEntityFrameworkRepository;
+        private readonly ILogger<RequestPermissioRequestHandler> _logger;
+        public RequestPermissioRequestHandler(IPermissionEntityFrameworkRepository permissionEntityFrameworkRepository, ILogger<RequestPermissioRequestHandler> logger)
         {
-            this.permissionUOW = permissionUOW;
+            this._permissionEntityFrameworkRepository = permissionEntityFrameworkRepository;
+            _logger = logger;
         }
         async Task<int> IRequestHandler<RequestPermissioRequest, int>.Handle(RequestPermissioRequest request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Init RequestPermissioRequest");
 
             var newPermission = new Permission()
             {
@@ -34,19 +41,20 @@ namespace AccessControl.Application.Permissions.Commands.RequestPermission
                 PermissionDate = DateTime.Now
             };
 
-            var permisionNew = permissionUOW.Permissions.Add(newPermission);
-            if (!await permissionUOW.SaveChangesAsync(cancellationToken))
+            ///add DomainEvent Create Permission 
+            newPermission.DomainEvents.Add(new PermissionCreateEvent(newPermission));
+
+
+            newPermission = await _permissionEntityFrameworkRepository.AddAsync(newPermission, cancellationToken);
+            if (newPermission == null)
                 throw new Exception("No Entity Added");
+
+
+            _logger.LogInformation("Complete RequestPermissioRequest");
+
+            return newPermission.Id;
              
-            var permissionElasticAdded = permissionUOW.PermissionElastic.Add(newPermission);
-            if (permissionElasticAdded == null)
-                throw new Exception("No Entity Added to ElasticSearch");
 
-            var permissionKafkaAdded = permissionUOW.PermissionKafka.Add(newPermission);
-            if (permissionElasticAdded == null)
-                throw new Exception("No Entity Added to Kafka");
-
-            return permisionNew.Id;
         }
     }
 }

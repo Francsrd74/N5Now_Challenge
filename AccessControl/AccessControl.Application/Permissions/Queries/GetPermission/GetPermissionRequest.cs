@@ -1,6 +1,11 @@
-﻿using AccessControl.Application.Permissions.Queries.GetPermission.DTOs;
+﻿using AccessControl.Application.Common.Interfaces;
+using AccessControl.Application.Permissions.Queries.GetPermission.DTOs;
+using AccessControl.Domain.Events.Permission;
 using AccessControl.Domain.Interfaces.Permission;
+using Confluent.Kafka;
+using Elastic.Clients.Elasticsearch;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AccessControl.Application.Permissions.Queries.GetPermission
 {
@@ -11,19 +16,31 @@ namespace AccessControl.Application.Permissions.Queries.GetPermission
 
     public class GetPermissionRequestHandler : IRequestHandler<GetPermissionRequest, PermissionResponseDto>
     {
-        private readonly IPermissionUOW _permissionUOW;
-        public GetPermissionRequestHandler(IPermissionUOW permissionUOW)
+        private readonly IPermissionElasticRepository _permissionElasticRepository; 
+        private readonly IDomainEventService _domainEventService; 
+        private readonly ILogger<GetPermissionRequestHandler> _logger;
+        public GetPermissionRequestHandler(IPermissionElasticRepository permissionElasticRepository, ILogger<GetPermissionRequestHandler> logger, IDomainEventService domainEventService)
         {
-            _permissionUOW = permissionUOW;
+            _permissionElasticRepository = permissionElasticRepository; 
+            _logger = logger;
+            _domainEventService = domainEventService;
         }
 
-        public Task<PermissionResponseDto> Handle(GetPermissionRequest request, CancellationToken cancellationToken)
+        public async Task<PermissionResponseDto> Handle(GetPermissionRequest request, CancellationToken cancellationToken)
         {
-            var result = _permissionUOW.PermissionElastic.Get(request.Id);
+            _logger.LogInformation("Init GetPermissionRequestHandler");
+            ///get permision from Elastic
+            var result = await _permissionElasticRepository.GetAsync(request.Id, cancellationToken);
+
+            ///Publish domainEvent Get  
+            await _domainEventService.Publish(new PermissionGetEvent(result));
+
+
+            PermissionResponseDto? employee = null;
 
             if (result != null) {
 
-                var employee = new PermissionResponseDto()
+                employee = new PermissionResponseDto()
                 {
                     Id = result.Id,
                     EmployeeForename = result.EmployeeForename,
@@ -31,12 +48,12 @@ namespace AccessControl.Application.Permissions.Queries.GetPermission
                     PermissionTypeId = result.PermissionTypeId,
                     PermissionDate = result.PermissionDate,
                 };
-                
-                return Task.FromResult(employee);
-            }
+                 
+            } 
 
-
-            return null;
+            _logger.LogInformation("Complete GetPermissionRequestHandler");
+             
+            return employee;
         }
     }
 }

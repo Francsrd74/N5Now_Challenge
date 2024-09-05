@@ -14,6 +14,7 @@ namespace AccessControl.Infrastructure.Persistence.EFConfigurations
     {
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
+            builder.Ignore(e => e.DomainEvents);
 
             builder.Property(e => e.EmployeeForename)
                     .HasMaxLength(300)

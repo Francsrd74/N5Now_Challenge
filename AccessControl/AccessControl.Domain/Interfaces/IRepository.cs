@@ -8,8 +8,8 @@ namespace AccessControl.Domain.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        T Add(T entity);
-        void Update(T entity); 
-        T Get(int id);
+        public Task<T> AddAsync(T entity, CancellationToken cancellationToken);
+        public Task UpdateAsync(T entity, CancellationToken cancellationToken);
+        public Task<T> GetAsync(int id, CancellationToken cancellationToken);
     }
 }

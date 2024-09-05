@@ -31,8 +31,4 @@
     <ProjectReference Include="..\AccessControl.Domain\AccessControl.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\Interfaces\Services\" />
-  </ItemGroup>
-
 </Project>

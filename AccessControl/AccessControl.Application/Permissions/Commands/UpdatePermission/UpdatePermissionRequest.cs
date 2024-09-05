@@ -1,6 +1,8 @@
 ﻿using AccessControl.Domain.Entities;
+using AccessControl.Domain.Events.Permission;
 using AccessControl.Domain.Interfaces.Permission;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +21,20 @@ namespace AccessControl.Application.Permissions.Commands.UpdatePermission
 
     public class UpdatePermissionRequesttHandler : IRequestHandler<UpdatePermissionRequest, int>
     {
-        private readonly IPermissionUOW _permissionUOW;
-        public UpdatePermissionRequesttHandler(IPermissionUOW permissionUOW)
+        private readonly IPermissionEntityFrameworkRepository _permissionEntityFrameworkRepository;
+        private readonly ILogger<UpdatePermissionRequesttHandler> _logger;
+        public UpdatePermissionRequesttHandler(IPermissionEntityFrameworkRepository permissionEntityFrameworkRepository, ILogger<UpdatePermissionRequesttHandler> logger)
         {
-            this._permissionUOW = permissionUOW;
+            this._permissionEntityFrameworkRepository = permissionEntityFrameworkRepository;
+            _logger = logger;
         }
 
         async Task<int> IRequestHandler<UpdatePermissionRequest, int>.Handle(UpdatePermissionRequest request, CancellationToken cancellationToken)
         {
-            var permission = _permissionUOW.Permissions.Get(request.Id);
+
+            _logger.LogInformation("init UpdatePermissionRequesttHandler");
+
+            var permission = await _permissionEntityFrameworkRepository.GetAsync(request.Id, cancellationToken);
 
             if (permission != null)
             {
@@ -36,16 +43,15 @@ namespace AccessControl.Application.Permissions.Commands.UpdatePermission
                 permission.PermissionTypeId = request.PermissionTypeId;     
                 permission.PermissionDate = DateTime.Now;
 
-
-                _permissionUOW.Permissions.Update(permission);
-
-                _permissionUOW.SaveChangesAsync(cancellationToken);
+                ///add DomainEvent Update Permission
+                permission.DomainEvents.Add(new PermissionUpdateEvent(permission));
 
 
-                _permissionUOW.PermissionElastic.Update(permission);
-
+                await _permissionEntityFrameworkRepository.UpdateAsync(permission, cancellationToken); 
             }
 
+
+            _logger.LogInformation("Complete UpdatePermissionRequesttHandler");
 
             return await Task.FromResult(permission.Id);
         }

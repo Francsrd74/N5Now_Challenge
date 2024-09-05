@@ -17,7 +17,7 @@ namespace AccessControl.Infrastructure.Clients.Kafka
         { 
             var settings = new ProducerConfig()
             {
-                BootstrapServers = configuration.GetRequiredSection("kafkaClient:uri").Value
+                BootstrapServers = configuration.GetRequiredSection("kafkaClient:BootstrapServer").Value
             };
 
             var client = new ProducerBuilder<Null, string>(settings).Build();

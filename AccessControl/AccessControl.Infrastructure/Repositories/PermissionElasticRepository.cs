@@ -1,4 +1,5 @@
 ﻿using AccessControl.Domain.Entities;
+using AccessControl.Domain.Interfaces;
 using AccessControl.Domain.Interfaces.Permission;
 using Elastic.Clients.Elasticsearch;
 using Microsoft.Extensions.Logging;
@@ -10,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace AccessControl.Infrastructure.Repositories
 {
-    public class PermissionElasticRepository : IPermissionRepository
+    public class PermissionElasticRepository : IPermissionElasticRepository
     {
         private readonly ElasticsearchClient _elasticsearchClient;
-        private readonly ILogger<IPermissionRepository> _logger;   
+        private readonly ILogger<PermissionElasticRepository> _logger;
 
         private const String PermissionIndex = "permission_index";
-        public PermissionElasticRepository(ElasticsearchClient elasticsearchClient, ILogger<IPermissionRepository> logger)
+        public PermissionElasticRepository(ElasticsearchClient elasticsearchClient, ILogger<PermissionElasticRepository> logger)
         {
             _elasticsearchClient = elasticsearchClient;
             _logger = logger;
@@ -35,27 +36,28 @@ namespace AccessControl.Infrastructure.Repositories
 
         }
 
-        public Permission Add(Permission entity)
+        async Task<Permission> IRepository<Permission>.AddAsync(Permission entity, CancellationToken cancellationToken)
         {
-            var indexResponse = _elasticsearchClient.CreateAsync<Permission>(entity, i => i.Index(PermissionIndex).Id(entity.Id));
+            var indexResponse = await _elasticsearchClient.CreateAsync<Permission>(entity, i => i.Index(PermissionIndex).Id(entity.Id));
 
-            _logger.LogInformation("Add entity in to elastic for the index {PermissionIndex} from ID: {id}", PermissionIndex, entity.Id);
-            return entity;
+            _logger.LogInformation("AddAsync entity in to elastic for the index {PermissionIndex} from ID: {id}", PermissionIndex, entity.Id);
+            return await Task.FromResult<Permission>(entity);
         }
 
-        public Permission Get(int id)
+        async Task<Permission> IRepository<Permission>.GetAsync(int id, CancellationToken cancellationToken)
         {
 
-            var result = _elasticsearchClient.GetAsync<Permission>(id, g => g.Index(PermissionIndex)).Result.Source;
-            _logger.LogInformation("Get entity from elastic for the index {PermissionIndex} ID: {id}", PermissionIndex, id);
+            _logger.LogInformation("GetAsync entity from elastic for the index {PermissionIndex} ID: {id}", PermissionIndex, id);
+            var result = await _elasticsearchClient.GetAsync<Permission>(id, g => g.Index(PermissionIndex));
 
-            return result;
+            return await Task.FromResult(result.Source);
         }
 
-        public void Update(Permission entity)
-        { 
-            _elasticsearchClient.UpdateAsync<Permission, Permission>(PermissionIndex, entity.Id, i => i.Doc(entity)); 
-            _logger.LogInformation("Update to the entity in elastic for the index {PermissionIndex} whose ID: {id}", PermissionIndex, entity.Id);
+        public async Task UpdateAsync(Permission entity, CancellationToken cancellationToken)
+        {
+            await _elasticsearchClient.UpdateAsync<Permission, Permission>(PermissionIndex, entity.Id, i => i.Doc(entity));
+            _logger.LogInformation("UpdateAsync to the entity in elastic for the index {PermissionIndex} whose ID: {id}", PermissionIndex, entity.Id);
         }
+
     }
 }
